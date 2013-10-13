@@ -1,0 +1,83 @@
+# Trabalho FP - Algorítmo encriptaçao RSA #
+#                                         #
+
+# 
+
+def mdc(a, b):
+    '''int -> int
+    Funçao que calcula o maximo divisor comum entre dois numeros'''
+    while b:
+        a,b = b, a % b
+    return a
+
+def calcula_e(n):
+    '''int->int
+    Funçao recebe um inteiro e devolve o menor e para qual 1<e<n , e co-primo com n'''
+    e=2
+    while mdc(n,e)!=1:       
+        e=e+1
+    return e
+    
+    
+def calcula_d(e,n):
+    '''int->int
+    Funcao recebe dois inteiros e calcula um d para qual d*e=1+k*n'''
+    k=7
+    d=(1+k*n)//e
+    return d
+    
+
+def encripta(N,i,j):
+    conta=0
+    primo2=2
+    while conta!=j:
+        if geraprimos(primo2)==True:
+            conta+=1
+            if conta==i:
+                primo1=primo2
+            print(primo2,conta)
+        primo2+=1    
+    print(primo1,primo2)
+    primo2=primo2-1
+    m=primo1*primo2
+    n=(primo1-1)*(primo2-1)
+    e=calcula_e(n)
+    print(m,e)
+    if N>=m:
+        raise ValueError("encripta: a mensagem tem deser inferior a",m)
+    
+    print(N**e%m)
+    
+    
+    
+    
+def decifra(C,i,j):
+    conta=0
+    primo2=2
+    while conta!=j:
+        if geraprimos(primo2)==True:
+            conta+=1
+            if conta==i:
+                primo1=primo2
+            print(primo2,conta)
+        primo2+=1    
+    print(primo1,primo2)
+    primo2=primo2-1
+    m=primo1*primo2
+    n=(primo1-1)*(primo2-1)
+    d=calcula_d(calcula_e(n),n)
+    print(m,d)
+    if C>=m:
+        raise ValueError("decifra: a mensagem tem deser inferior a",m)
+    
+    print( (C**d)%m)    
+    
+            
+    
+def geraprimos(n):
+    i = 2
+    while i < n:
+        if n%i == 0:
+            return False
+        i += 1
+    return True    
